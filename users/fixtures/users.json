@@ -1,0 +1,102 @@
+[
+  {
+    "model": "users.customuser",
+    "pk": 1,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "ivanpetrov",
+      "first_name": "",
+      "last_name": "",
+      "email": "ivan.petrov@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-05-06T00:00:00Z",
+      "phone_number": "612345678",
+      "avatar": null,
+      "city": "Barcelona",
+      "position": ""
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 2,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "mariagarcia",
+      "first_name": "",
+      "last_name": "",
+      "email": "maria.garcia@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-05-06T00:00:00Z",
+      "phone_number": "698765432",
+      "avatar": null,
+      "city": "Madrid",
+      "position": ""
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 3,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "pablolopez",
+      "first_name": "",
+      "last_name": "",
+      "email": "pablo.lopez@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-05-06T00:00:00Z",
+      "phone_number": "634578912",
+      "avatar": null,
+      "city": "Valencia",
+      "position": ""
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 4,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "laurasanchez",
+      "first_name": "",
+      "last_name": "",
+      "email": "laura.sanchez@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-05-06T00:00:00Z",
+      "phone_number": "677332211",
+      "avatar": null,
+      "city": "Seville",
+      "position": ""
+    }
+  },
+  {
+    "model": "users.customuser",
+    "pk": 5,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "davidmartin",
+      "first_name": "",
+      "last_name": "",
+      "email": "david.martin@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-05-06T00:00:00Z",
+      "phone_number": "645998877",
+      "avatar": null,
+      "city": "Bilbao",
+      "position": ""
+    }
+  }
+]

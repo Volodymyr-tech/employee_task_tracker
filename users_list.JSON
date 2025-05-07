@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "email": "ivan.petrov@example.com",
+    "username": "ivanpetrov",
+    "phone_number": "612345678",
+    "city": "Barcelona",
+    "avatar": null
+  },
+  {
+    "id": 2,
+    "email": "maria.garcia@example.com",
+    "username": "mariagarcia",
+    "phone_number": "698765432",
+    "city": "Madrid",
+    "avatar": null
+  },
+  {
+    "id": 3,
+    "email": "pablo.lopez@example.com",
+    "username": "pablolopez",
+    "phone_number": "634578912",
+    "city": "Valencia",
+    "avatar": null
+  },
+  {
+    "id": 4,
+    "email": "laura.sanchez@example.com",
+    "username": "laurasanchez",
+    "phone_number": "677332211",
+    "city": "Seville",
+    "avatar": null
+  },
+  {
+    "id": 5,
+    "email": "david.martin@example.com",
+    "username": "davidmartin",
+    "phone_number": "645998877",
+    "city": "Bilbao",
+    "avatar": null
+  }
+]
