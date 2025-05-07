@@ -23,19 +23,19 @@ class BaseValidator:
             "You should realize that method in your validation classes"
         )
 
-#
-# class ConnectedHabitOrRewardValidator(BaseValidator):
-#     """
-#     Checks that the associated habit and reward are not specified at the same time.
-#     """
-#
-#     def validate(self, is_parent_task, parent_task, **kwargs):
-#         if is_parent_task==True and parent_task:
-#             raise serializers.ValidationError(
-#                 "Simultaneous selection of a related habit"
-#                 " and remuneration is prohibited"
-#             )
-#
+
+class ConnectedTaskOrIsParentValidator(BaseValidator):
+    """
+    Checks that the associated habit and reward are not specified at the same time.
+    """
+
+    def validate(self, is_parent_task, parent_task, **kwargs):
+        if is_parent_task and parent_task:
+            raise serializers.ValidationError(
+                "Simultaneous selection of a parent status and"
+                " related task is prohibited"
+            )
+
 
 # class RelatedHabitValidator(BaseValidator):
 #     """
