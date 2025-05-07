@@ -1,0 +1,47 @@
+[
+        {
+            "id": 1,
+            "task": "Set up project environment",
+            "term": "2025-06-01T09:00:00Z",
+            "status": "Created",
+            "is_parent_task": true,
+            "performer": 1,
+            "parent_task": null
+        },
+        {
+            "id": 2,
+            "task": "Implement authentication",
+            "term": "2025-06-02T10:00:00Z",
+            "status": "Created",
+            "is_parent_task": true,
+            "performer": 2,
+            "parent_task": null
+        },
+        {
+            "id": 3,
+            "task": "Write unit tests",
+            "term": "2025-06-03T11:00:00Z",
+            "status": "Started",
+            "is_parent_task": true,
+            "performer": 3,
+            "parent_task": null
+        },
+        {
+            "id": 4,
+            "task": "Design database schema",
+            "term": "2025-06-04T12:00:00Z",
+            "status": "Created",
+            "is_parent_task": true,
+            "performer": 4,
+            "parent_task": null
+        },
+        {
+            "id": 5,
+            "task": "Create virtual environment",
+            "term": "2025-06-01T10:00:00Z",
+            "status": "Done",
+            "is_parent_task": false,
+            "performer": 1,
+            "parent_task": 1
+        }
+    ]
