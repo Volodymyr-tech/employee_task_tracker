@@ -16,7 +16,7 @@ services: # describing services we're going to use
 
     volumes:
       - .:/app # we use main directory and docker directory /app for saving changing in code
-      - static_volume:/app/staticfiles # it allows us to save data even if container was stopped
+      - ./staticfiles:/app/staticfiles # it allows us to save data even if container was stopped
     ports: # mapping host port with docker container port
       - "8003:8003"
     depends_on: # it will run only if DB connection is True
