@@ -39,7 +39,7 @@ class TasksViewSet(viewsets.ModelViewSet):
         elif self.action in ["update", "partial_update"]:
             permission_classes = [
                 IsAuthenticated,
-                IsUser
+                IsUser | IsAdminUser
             ]  # only admins and owners can change tasks
         elif self.action == "create":
             permission_classes = [IsAuthenticated]  # anyone can create tasks
@@ -53,12 +53,16 @@ class TasksViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-    #
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
 
 
 class SuggestedImportantTasksAPIView(APIView):
+    """ Return a list of important tasks and employees those are available
+     to do it. Requests tasks from the database that are not included in the work,
+      but on which other tasks that are included in the work depend.
+      Implements a search for employees who can take on such tasks
+      (the least-loaded employee or the employee performing the parent task
+       if he is assigned a maximum of 2 tasks more than the least-loaded employee)"""
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
