@@ -9,6 +9,8 @@ services: # describing services we're going to use
     command: >
       sh -c "python manage.py makemigrations && \
              python manage.py migrate && \
+             python manage.py loaddata users.json && \
+             python manage.py loaddata tasks.json && \
              python manage.py collectstatic --noinput && \
              gunicorn config.wsgi:application --bind 0.0.0.0:8003"
 
