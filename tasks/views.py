@@ -24,8 +24,9 @@ class TasksViewSet(viewsets.ModelViewSet):
     serializer_class = TasksSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = [
-        "is_public",
-        "action",
+        "status",
+        "is_parent_task",
+        "performer",
     ]
     permission_classes = [IsAuthenticated, IsUser]
     pagination_class = StandardResultsSetPagination
