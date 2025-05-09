@@ -21,7 +21,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    # tokens = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
@@ -54,9 +53,3 @@ class USerTasksSerializer(serializers.ModelSerializer):
     def get_tasks(self, user):
         qs = user.tasks.filter(status=Tasks.STARTED,)
         return TasksSerializer(qs, many=True).data
-
-
-    # def get_number_of_active_tasks(self, instance):
-    #     return (
-    #         instance.tasks.filter(status=Tasks.STARTED).count()
-    #     )

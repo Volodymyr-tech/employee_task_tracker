@@ -1,11 +1,15 @@
+from django.db.models import Count, Min, Q
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from tasks.models import Tasks
-from tasks.serializers import TasksSerializer
+from tasks.serializers import TasksSerializer, SuggestedTaskSerializer
+from users.models import CustomUser
 from users.paginators import StandardResultsSetPagination
 from users.permissions import IsUser
 
@@ -20,8 +24,9 @@ class TasksViewSet(viewsets.ModelViewSet):
     serializer_class = TasksSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = [
-        "is_public",
-        "action",
+        "status",
+        "is_parent_task",
+        "performer",
     ]
     permission_classes = [IsAuthenticated, IsUser]
     pagination_class = StandardResultsSetPagination
@@ -35,7 +40,7 @@ class TasksViewSet(viewsets.ModelViewSet):
         elif self.action in ["update", "partial_update"]:
             permission_classes = [
                 IsAuthenticated,
-                IsUser
+                IsUser | IsAdminUser
             ]  # only admins and owners can change tasks
         elif self.action == "create":
             permission_classes = [IsAuthenticated]  # anyone can create tasks
@@ -49,17 +54,56 @@ class TasksViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-    #
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
 
 
-class ListImportantTaskAPIView(ListAPIView):
-    queryset = Tasks.objects.all()
-    serializer_class = TasksSerializer
+class SuggestedImportantTasksAPIView(APIView):
+    """ Return a list of important tasks and employees those are available
+     to do it. Requests tasks from the database that are not included in the work,
+      but on which other tasks that are included in the work depend.
+      Implements a search for employees who can take on such tasks
+      (the least-loaded employee or the employee performing the parent task
+       if he is assigned a maximum of 2 tasks more than the least-loaded employee)"""
+
     permission_classes = [IsAuthenticated]
-    pagination_class = StandardResultsSetPagination
 
+    def get(self, request):
 
-    def get_queryset(self):
-        return Tasks.objects.filter(status='Started', is_parent_task=True)
+        important_tasks = Tasks.objects.filter(
+            status=Tasks.CREATED,
+            is_parent_task=False,
+            parent_task__isnull=False,
+            parent_task__status=Tasks.STARTED
+        )
+
+        users_qs = CustomUser.objects.annotate(
+            active_task_count=Count('tasks', filter=Q(tasks__status=Tasks.STARTED))
+        )
+
+        # 3. Минимальная загрузка
+        min_count = users_qs.aggregate(
+            Min("active_task_count")
+        )["active_task_count__min"] or 0
+
+        available_users = users_qs.filter(active_task_count__lte=min_count + 2)
+
+        result = []
+
+        for task in important_tasks:
+            suggested_users = []
+
+            parent_user = task.parent_task.performer if task.parent_task else None
+
+            if parent_user and available_users.filter(id=parent_user.id).exists():
+                suggested_users.append(parent_user.username)
+            elif available_users.exists():
+                least_loaded = available_users.order_by("active_task_count").first()
+                suggested_users.append(least_loaded.username)
+
+            result.append({
+                "task": task.task,
+                "deadline": task.term,
+                "suggested_employees": suggested_users
+            })
+
+        serializer = SuggestedTaskSerializer(result, many=True)
+        return Response(serializer.data)

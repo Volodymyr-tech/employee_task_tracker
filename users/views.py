@@ -10,11 +10,10 @@ from users.serializers import RegisterSerializer, UserProfileSerializer, USerTas
 
 
 class RegisterView(CreateAPIView):
-    """Registerview class, allow enyone to register"""
-
+    """Registerview class, allow anyone to register"""
     queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
-    # permission_classes = [AllowAny]  # allow anyone to register
+    permission_classes = [AllowAny]
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -22,11 +21,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     Also, you can filter objects by username and email"""
     queryset = CustomUser.objects.all()
     serializer_class = UserProfileSerializer
-    # filter_backends = [SearchFilter, OrderingFilter]
-    # search_fields = [
-    #     "username",
-    #     "email",
-    # ]
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = [
+        "username",
+        "email",
+    ]
     permission_classes = [IsAuthenticated, IsAdminUser]
 
 
@@ -55,6 +54,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 
 class UserTasksApiView(generics.ListCreateAPIView):
+    """ Return a list of user task ordered by number of active tasks"""
     queryset = CustomUser.objects.filter(tasks__status__exact='Started').distinct() # if do not use distinct we'll get duplicate
     serializer_class = USerTasksSerializer
     permission_classes = [IsAuthenticated]
